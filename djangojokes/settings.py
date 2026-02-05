@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,7 +30,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [    
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,9 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages.apps.PagesConfig',
+    'jokes.apps.JokesConfig',
+    'users.apps.UsersConfig',
+    'django.contrib.admindocs',
+    'common.apps.CommonConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,6 +59,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djangojokes.urls'
 
+""" DEBUG_TOOLBAR_CONFIG = {
+    'DISABLE_PANELS':
+}
+ """
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -75,8 +86,15 @@ WSGI_APPLICATION = 'djangojokes.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "refdbt",
+        "USER": "training_3",
+        "PASSWORD": "Z}275T98p=J_,8a.j).AZ",
+        "HOST": "lxdbpgrefdatat",
+        "PORT": "5432",
+        "OPTIONS": {
+            "options": "-c search_path=training_3"
+        },
     }
 }
 
@@ -99,6 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# AUTHENTICATION
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
@@ -116,3 +136,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static' # look in project/static
+]
+
+# BOTTOM OF settings.py
+if os.environ.get('ENVIRONMENT') != 'production':
+     from .local_settings import *
+# DON'T PUT ANYTHING BELOW THIS
