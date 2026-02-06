@@ -44,7 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'common.apps.CommonConfig',
     'debug_toolbar',
+    'jobs.apps.JobsConfig',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
